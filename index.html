@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mykey One – střih videí, weby a kamery</title>
+<meta name="description" content="Mladý student, který rád stříhá videa, tvoří webové stránky a dělá zabezpečovačky. Mykey One.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef0f4; --surface:#ffffff; --ink:#14161c; --muted:#555b69; --line:#d5d9e1;
+  --accent:#4b3bff; --accent-ink:#ffffff; --signal:#ffd23f;
+  --head:"Bricolage Grotesque","Arial Black",Arial,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0f1117;--surface:#181b24;--ink:#eef0f6;--muted:#a3a9b8;--line:#2b3040;--accent:#7b6dff;--accent-ink:#0f1117;}
+}
+:root[data-theme="dark"]{--bg:#0f1117;--surface:#181b24;--ink:#eef0f6;--muted:#a3a9b8;--line:#2b3040;--accent:#7b6dff;--accent-ink:#0f1117;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+header{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
+.logo{font:800 1.25rem var(--head);text-decoration:none;letter-spacing:-.01em}
+nav a{margin-left:1.5rem;text-decoration:none;color:var(--muted);font-weight:600}
+nav a:hover{color:var(--ink)}
+.hero{padding:3rem 0 4rem}
+h1{font:800 clamp(2.6rem,8vw,5.6rem)/.98 var(--head);letter-spacing:-.035em;margin:0 0 1.25rem;max-width:14ch}
+.lead{max-width:40rem;color:var(--muted);font-size:1.2rem;margin:0 0 2rem}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:.9rem 1.5rem;border-radius:.5rem;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink);margin-left:.5rem}
+/* timeline */
+.tl{margin-top:3.5rem;background:var(--surface);border:1px solid var(--line);border-radius:.75rem;padding:1rem}
+.tctl{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.tctl button{font:600 .9rem var(--body);background:var(--ink);color:var(--bg);border:0;border-radius:.4rem;padding:.5rem .9rem;cursor:pointer;min-width:6.5rem}
+.tctl input{flex:1;min-width:0;accent-color:var(--accent)}
+.tctl output{font:600 .9rem var(--body);font-variant-numeric:tabular-nums;color:var(--muted);min-width:5.2rem;text-align:right}
+.rows{--lw:4.2rem;--gap:.6rem;position:relative;display:grid;grid-template-columns:var(--lw) 1fr;gap:.45rem var(--gap);align-items:center}
+.rl{font-size:.8rem;font-weight:600;color:var(--muted)}
+.ruler{position:relative;height:1.1rem;font-size:.75rem;color:var(--muted);border-bottom:1px solid var(--line);cursor:pointer}
+.ruler span{position:absolute;top:0;transform:translateX(-50%)}
+.ruler span:first-child{transform:none}.ruler span:last-child{transform:translateX(-100%)}
+.ruler i{position:absolute;bottom:0;width:1px;height:.3rem;background:var(--line)}
+.lane{position:relative;height:2.6rem;border-radius:.3rem;background:color-mix(in srgb,var(--line) 40%,transparent);cursor:pointer}
+.lane.wave{height:3rem;display:flex;align-items:center;gap:1px;padding:0 3px}
+.lane.wave b{flex:1;background:var(--line);border-radius:1px;min-height:2px}
+.lane.wave b.p{background:var(--accent)}
+.clip{position:absolute;top:3px;bottom:3px;border-radius:.3rem;padding:0 .5rem;display:flex;align-items:center;font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;color:#14161c;transition:box-shadow .15s,filter .15s}
+.clip.on{box-shadow:0 0 0 2px var(--ink);filter:brightness(1.08)}
+.c1{background:var(--accent);color:var(--accent-ink)}
+.c2{background:var(--signal)}
+.c3{background:#8fe3c4}
+.ph{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--ink);left:calc(var(--lw) + var(--gap) + (100% - var(--lw) - var(--gap)) * var(--p,0));pointer-events:none}
+.ph::before{content:"";position:absolute;top:0;left:-5px;border:6px solid transparent;border-top:8px solid var(--ink)}
+@media (max-width:40rem){.rows{--lw:3.2rem}.tctl button{min-width:5.5rem}}
+section{padding:4rem 0;border-top:1px solid var(--line)}
+h2{font:800 clamp(1.8rem,4vw,2.6rem)/1.1 var(--head);letter-spacing:-.025em;margin:0 0 2rem;max-width:22ch}
+.grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:.75rem;padding:1.5rem}
+.card h3{font:800 1.25rem var(--head);margin:0 0 .5rem}
+.card p{margin:0;color:var(--muted)}
+ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}
+ol.steps li{counter-increment:s;border-left:4px solid var(--accent);padding-left:1rem}
+ol.steps li::before{content:counter(s) ". krok";display:block;font-weight:600;color:var(--muted);font-size:.9rem}
+ol.steps strong{font:800 1.2rem var(--head)}
+ol.steps p{margin:.25rem 0 0;color:var(--muted)}
+.contact{background:var(--ink);color:var(--bg);border-radius:1rem;padding:clamp(1.5rem,5vw,3.5rem);margin-bottom:3rem}
+.contact h2{margin-bottom:1rem}
+.contact p{max-width:36rem;margin:0 0 1.5rem;opacity:.85}
+.contact .btn{background:var(--signal);color:#14161c}
+.contact .btn.ghost{background:transparent;color:var(--bg);border-color:var(--bg)}
+footer{padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.95rem}
+.about{max-width:40rem;margin:0;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+.links .btn.ghost{margin:0}
+.chip{border:2px solid var(--line);border-radius:.5rem;padding:.9rem 1.5rem;font-weight:600}
+.card .btn{margin-top:1.25rem}
+@media (max-width:40rem){nav a:not(.keep){display:none}.btn.ghost{margin:.75rem 0 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#top">Mykey One</a>
+    <nav><a href="#sluzby">Služby</a><a href="#prace">Moje práce</a><a href="#postup">Postup</a><a class="keep" href="#kontakt">Kontakt</a></nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <h1>Videa, weby a kamery, které fungují.</h1>
+      <p class="lead">Jsem mladý student a rád stříhám videa a tvořím webové stránky a také rád dělám zabezpečovačky (lehčí formy).</p>
+      <a class="btn" href="#kontakt">Napsat mi</a><a class="btn ghost" href="#sluzby">Co nabízím</a>
+
+      <div class="tl" role="group" aria-label="Ukázka střihové časové osy">
+        <div class="tctl"><button type="button" id="pp">Pozastavit</button><input type="range" id="rng" min="0" max="600" value="0" aria-label="Pozice ve videu"><output id="tc">0:00 / 1:00</output></div>
+        <div class="rows">
+          <span></span><div class="ruler" id="ruler"></div>
+          <span class="rl">Video</span><div class="lane" id="lv"></div>
+          <span class="rl">Titulky</span><div class="lane" id="lt"></div>
+          <span class="rl">Zvuk</span><div class="lane wave" id="lw"></div>
+          <div class="ph" id="ph"></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="sluzby">
+      <h2>S čím vám pomůžu</h2>
+      <div class="grid">
+        <div class="card"><h3>Krátká videa</h3><p>Reels, TikTok a YouTube Shorts se silným začátkem, rychlým tempem a titulky, které se dají číst i bez zvuku.</p></div>
+        <div class="card"><h3>YouTube videa</h3><p>Dlouhý formát od surových záběrů po finální export. Odstraním zbytečné pauzy a upravím zvuk. Grafika a animace po domluvě.</p></div>
+        <div class="card"><h3>Webové stránky</h3><p>Přehledné a rychlé weby, které fungují na mobilu i na počítači. Ideální pro tvůrce, malé firmy a projekty.</p></div>
+        <div class="card"><h3>Alarmové a kamerové kity</h3><p>Zprovozním celý kit: nastavení, příslušenství a první test, abyste mohli být rovnou v bezpečí.</p></div>
+      </div>
+    </section>
+
+    <section id="prace">
+      <h2>Moje práce</h2>
+      <div class="grid">
+        <div class="card"><h3>Prohlídka školy</h3><p>Webová prohlídka Základní školy Klatovy, Tolstého 765.</p><a class="btn" href="https://prohlidkatolstaku.wixsite.com/domovskastranka" target="_blank" rel="noopener">Otevřít web</a></div>
+      </div>
+    </section>
+
+    <section id="postup">
+      <h2>Jak spolupráce probíhá</h2>
+      <ol class="steps">
+        <li><strong>Zadání</strong><p>Napište mi, jestli potřebujete střih, web, atd.</p></li>
+        <li><strong>První verze</strong><p>Pošlu vám první verzi nebo návrh řešení ke schválení.</p></li>
+        <li><strong>Úpravy</strong><p>Zapracuji vaše připomínky.</p></li>
+        <li><strong>Předání</strong><p>Dostanete hotovou práci a vysvětlím, co dělat dál.</p></li>
+      </ol>
+    </section>
+
+    <section id="kontakt" style="border-top:0;padding-top:1rem">
+      <div class="contact">
+        <h2>Co potřebujete vyřešit?</h2>
+        <p>Napište mi, co potřebujete a do kdy. Ozvu se s návrhem řešení.</p>
+        <div class="links" style="margin-top:0">
+          <a class="btn" href="mailto:kontakt@mykey-one.cz">Napsat e-mail</a>
+          <a class="btn ghost" href="https://www.instagram.com/mykey.tenk/" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61578010247651&amp;locale=cs_CZ" target="_blank" rel="noopener">Facebook</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Vyhrazena všechna práva © 2026 Mykey One · mykey-one.cz</footer>
+</div>
+<script>
+(function(){
+var D=60,$=function(i){return document.getElementById(i)};
+var lanes={lv:[[0,14,"Úvod","c1"],[14,30,"B-roll","c2"],[30,52,"Rozhovor","c1"],[52,60,"Závěr","c2"]],lt:[[4,12,"Titulky","c3"],[34,48,"Titulky","c3"]]};
+var clips=[];
+Object.keys(lanes).forEach(function(k){lanes[k].forEach(function(c){var e=document.createElement("div");e.className="clip "+c[3];e.textContent=c[2];e.style.left="calc("+c[0]/D*100+"% + 1px)";e.style.width="calc("+(c[1]-c[0])/D*100+"% - 2px)";$(k).appendChild(e);clips.push([e,c[0],c[1]])})});
+var r=$("ruler");for(var m=0;m<=D;m+=10){var l=document.createElement("span");l.textContent="0:"+(m<10?"0":"")+m;if(m==60)l.textContent="1:00";l.style.left=m/D*100+"%";r.appendChild(l)}
+for(var q=0;q<=D;q+=5){var t=document.createElement("i");t.style.left=q/D*100+"%";r.appendChild(t)}
+var N=96,bars=[];for(var i=0;i<N;i++){var b=document.createElement("b");var h=18+78*Math.abs(Math.sin(i*.71)*Math.sin(i*.19+1));if(i%24>20)h*=.25;b.style.height=h+"%";$("lw").appendChild(b);bars.push(b)}
+var t=0,last=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,pp=$("pp"),rng=$("rng");
+function fmt(x){x=Math.floor(x);return Math.floor(x/60)+":"+("0"+x%60).slice(-2)}
+function render(){$("ph").style.setProperty("--p",t/D);rng.value=t*10;$("tc").textContent=fmt(t)+" / 1:00";
+clips.forEach(function(c){c[0].classList.toggle("on",t>=c[1]&&t<c[2])});
+var n=Math.floor(t/D*N);bars.forEach(function(b,i){b.classList.toggle("p",i<n)});pp.textContent=playing?"Pozastavit":"Přehrát"}
+function tick(ts){if(playing){t+=(ts-last)/1000*3;if(t>=D)t=0}last=ts;render();requestAnimationFrame(tick)}
+pp.onclick=function(){playing=!playing;render()};
+rng.oninput=function(){t=rng.value/10;render()};
+function seek(e){var b=r.getBoundingClientRect();t=Math.max(0,Math.min(D,(e.clientX-b.left)/b.width*D));render()}
+["ruler","lv","lt","lw"].forEach(function(i){$(i).addEventListener("click",seek)});
+requestAnimationFrame(function(ts){last=ts;tick(ts)});
+})();
+</script>
+</body>
+</html>
